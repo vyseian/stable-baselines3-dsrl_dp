@@ -161,8 +161,12 @@ class DSRL(OffPolicyAlgorithm):
 		self.actor_gradient_steps = actor_gradient_steps
 		
 		self.diffusion_policy = diffusion_policy
-		self.diffusion_act_chunk = diffusion_act_dim[0]
-		self.diffusion_act_dim = diffusion_act_dim[1]
+		if diffusion_act_dim is not None:
+			self.diffusion_act_chunk = diffusion_act_dim[0]
+			self.diffusion_act_dim = diffusion_act_dim[1]
+		else:
+			self.diffusion_act_chunk = None
+			self.diffusion_act_dim = None
 		self.noise_critic_grad_steps = noise_critic_grad_steps
 		self.critic_backup_combine_type = critic_backup_combine_type
 

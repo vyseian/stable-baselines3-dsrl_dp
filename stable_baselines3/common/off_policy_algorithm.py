@@ -324,7 +324,11 @@ class OffPolicyAlgorithm(BaseAlgorithm):
         assert self.env is not None, "You must set the environment before calling learn()"
         assert isinstance(self.train_freq, TrainFreq)  # check done in _setup_learn()
 
+        n_episodes = 0
+        total_episodes = 6048 # square_image: 12012, square_low_dim: 6048, transport_low_dim: 6048
+
         while self.num_timesteps < total_timesteps:
+        # while n_episodes < total_episodes:
             rollout = self.collect_rollouts(
                 self.env,
                 train_freq=self.train_freq,
@@ -334,6 +338,8 @@ class OffPolicyAlgorithm(BaseAlgorithm):
                 replay_buffer=self.replay_buffer,
                 log_interval=log_interval,
             )
+
+            n_episodes += rollout.n_episodes
 
             if not rollout.continue_training:
                 break
